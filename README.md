@@ -1,4 +1,4 @@
-# CLi para crear CRUD's en React + TypeScript + Vite + Shadcn
+# CLi para crear CRUD's en React + TypeScript + Vite + Shadcn + Tan Stack Query + Tan Stack Router
 
 ### Instalación
 
