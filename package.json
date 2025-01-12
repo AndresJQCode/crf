@@ -1,0 +1,25 @@
+{
+  "name": "@qcode-co/crf",
+  "keywords": [
+    "react",
+    "cli",
+    "features",
+    "screaming"
+  ],
+  "author": "QCode (https://qcode.co)",
+  "description": "A simple CLI tool to create a Features módules to Reactjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "crf": "index.js"
+  },
+  "scripts": {},
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^13.0.0",
+    "fs-extra": "^11.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
