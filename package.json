@@ -8,7 +8,7 @@
   ],
   "author": "QCode (https://qcode.co)",
   "description": "A simple CLI tool to create a Features módules to Reactjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "bin": {
     "crf": "index.js"
