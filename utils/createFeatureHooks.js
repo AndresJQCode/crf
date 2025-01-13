@@ -4,7 +4,7 @@ const path = require("path");
 const createFeatureHooks = (hooksPath, featureNamePascalCase, featureName) => {
   const featureNameUpperCase = featureName.toUpperCase();
 
-  const useGetAll = `import { axiosInstance } from '@/context/axiosInterceptor';
+  const useGetAll = `import { axiosInstance } from '@/contexts/axiosInterceptor';
 import { useQuery } from '@tanstack/react-query';
 import { ${featureNamePascalCase} } from '../models';
 import { ResponseWithPagination } from '@/models/pagination';
@@ -13,13 +13,13 @@ import { URL_API_${featureNameUpperCase}S } from '@/constants/api-urls.constants
 export default function useGet${featureNamePascalCase}s() {
   return useQuery({
     queryKey: ['${featureName}s'],
-    queryFn: async () => axiosInstance.get<ResponseWithPagination<${featureNamePascalCase}>[]>(\`\${URL_API_${featureNameUpperCase}S}?page=1&pageSize=10\`),
+    queryFn: async () => axiosInstance.get<ResponseWithPagination<${featureNamePascalCase}>>(\`\${URL_API_${featureNameUpperCase}S}?page=1&pageSize=10\`),
   });
 }`;
   const useGetAllFilePath = path.join(hooksPath, `useGet${featureNamePascalCase}s.ts`);
   fs.writeFileSync(useGetAllFilePath, useGetAll.trim(), "utf8");
 
-  const useGetOne = `import { axiosInstance } from '@/context/axiosInterceptor';
+  const useGetOne = `import { axiosInstance } from '@/contexts/axiosInterceptor';
 import { useQuery } from '@tanstack/react-query';
 import { ${featureNamePascalCase} } from '../models';
 import { URL_API_${featureNameUpperCase}S } from '@/constants/api-urls.constants';
@@ -33,9 +33,9 @@ export default function useGet${featureNamePascalCase}ById(id: number) {
   const useGetOneFilePath = path.join(hooksPath, `useGet${featureNamePascalCase}ById.ts`);
   fs.writeFileSync(useGetOneFilePath, useGetOne.trim(), "utf8");
 
-  const useCreate = `import { axiosInstance } from '@/context/axiosInterceptor';
+  const useCreate = `import { axiosInstance } from '@/contexts/axiosInterceptor';
 import { useMutation } from '@tanstack/react-query';
-import { ${featureNamePascalCase} } from '../models';
+import { ${featureNamePascalCase}, Create${featureNamePascalCase} } from '../models';
 import { URL_API_${featureNameUpperCase}S } from '@/constants/api-urls.constants';
 
 export default function useCreate${featureNamePascalCase}() {
@@ -46,9 +46,9 @@ export default function useCreate${featureNamePascalCase}() {
   const useCreateFilePath = path.join(hooksPath, `useCreate${featureNamePascalCase}.ts`);
   fs.writeFileSync(useCreateFilePath, useCreate.trim(), "utf8");
 
-  const useUpdate = `import { axiosInstance } from '@/context/axiosInterceptor';
+  const useUpdate = `import { axiosInstance } from '@/contexts/axiosInterceptor';
 import { useMutation } from '@tanstack/react-query';
-import { ${featureNamePascalCase} } from '../models';
+import { ${featureNamePascalCase}, Update${featureNamePascalCase} } from '../models';
 import { URL_API_${featureNameUpperCase}S } from '@/constants/api-urls.constants';
 
 export default function useUpdate${featureNamePascalCase}() {
@@ -59,7 +59,7 @@ export default function useUpdate${featureNamePascalCase}() {
   const useUpdateFilePath = path.join(hooksPath, `useUpdate${featureNamePascalCase}.ts`);
   fs.writeFileSync(useUpdateFilePath, useUpdate.trim(), "utf8");
 
-  const useDelete = `import { axiosInstance } from '@/context/axiosInterceptor';
+  const useDelete = `import { axiosInstance } from '@/contexts/axiosInterceptor';
 import { useMutation } from '@tanstack/react-query';
 import { URL_API_${featureNameUpperCase}S } from '@/constants/api-urls.constants';
 

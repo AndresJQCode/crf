@@ -1,11 +1,17 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-const createFeatureContext = (contextPath, featureNamePascalCase, featureName) => {
+const createFeatureContext = (
+  contextPath,
+  featureNamePascalCase,
+  featureNamePluralInPascalCase,
+  featureNamePlural,
+  featureName
+) => {
   const contextTemplate = `import { createContext } from 'react';
 import { initialState, ${featureNamePascalCase}ContextState } from '../models';
 
-export const ${featureNamePascalCase}Context = createContext<${featureNamePascalCase}ContextState | undefined>(initialState);
+export const ${featureNamePascalCase}Context = createContext<${featureNamePascalCase}ContextState>(initialState);
 `;
   const contextFilePath = path.join(contextPath, `${featureName}-context.ts`);
   fs.writeFileSync(contextFilePath, contextTemplate.trim(), "utf8");
@@ -43,12 +49,12 @@ export const ${featureNamePascalCase}ContextProvider = ({ children }: { children
     case 'SET_${featureName.toUpperCase()}S':
       return {
         ...state,
-        users: action.payload,
+        ${featureNamePlural}: action.payload,
       };
     case 'SET_${featureName.toUpperCase()}':
       return {
         ...state,
-        user: action.payload,
+        ${featureName}: action.payload,
       };
     case 'SET_LOADING':
       return {

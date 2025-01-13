@@ -31,11 +31,13 @@ const toPlural = (str) => {
 const createFeature = (featureName) => {
   const featureNamePlural = toPlural(featureName);
   const featureNamePluralInPascalCase = toPascalCase(featureNamePlural);
+
   const featureNamePascalCase = toPascalCase(featureName);
   const basePath = path.resolve(process.cwd(), "src", "features", featureNamePlural);
   const paths = [
     path.join(basePath, "components"),
     path.join(basePath, "components", "form"),
+    path.join(basePath, "components", "data-table"),
     path.join(basePath, "models"),
     path.join(basePath, "hooks"),
     path.join(basePath, "context"),
@@ -48,7 +50,13 @@ const createFeature = (featureName) => {
   createFeatureContainer(basePath, featureNamePascalCase, featureName);
 
   // Create <FeatureName>Table.tsx file inside components directory
-  createFeatureTable(path.join(basePath, "components"), featureNamePluralInPascalCase, featureName);
+  createFeatureTable(
+    path.join(basePath, "components"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName>DialogCreate.tsx file inside components directory
   createFeatureDialogCreate(path.join(basePath, "components"), featureNamePascalCase, featureName);
@@ -60,7 +68,13 @@ const createFeature = (featureName) => {
   createFeatureForm(path.join(basePath, "components", "form"), featureNamePascalCase, featureName);
 
   // Create <FeatureName> contexts
-  createFeatureContext(path.join(basePath, "context"), featureNamePascalCase, featureName);
+  createFeatureContext(
+    path.join(basePath, "context"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName> models
   createFeatureModels(path.join(basePath, "models"), featureNamePascalCase, featureName);
