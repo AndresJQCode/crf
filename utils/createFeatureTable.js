@@ -15,10 +15,10 @@ import { columns } from './data-table/columns';
 import { use${featureNamePascalCase}Context } from '../context/use${featureNamePascalCase}Context';
 
 export default function ${featureNamePluralInPascalCase}Table() {
-  const { ${featureNamePlural} } = use${featureNamePascalCase}Context();
+  const { state } = use${featureNamePascalCase}Context();
 
   return (<div className="container mx-auto py-10">
-    <DataTable columns={columns} data={${featureNamePlural}} />
+    <DataTable columns={columns} data={state.${featureNamePlural}} />
   </div>);
 };`;
     fs.writeFileSync(tableFile, content, "utf8");

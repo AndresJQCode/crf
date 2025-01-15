@@ -47,7 +47,13 @@ const createFeature = (featureName) => {
   paths.forEach((dir) => fs.ensureDirSync(dir));
 
   // Create <FeatureName>Container.tsx file
-  createFeatureContainer(basePath, featureNamePascalCase, featureName);
+  createFeatureContainer(
+    basePath,
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName>Table.tsx file inside components directory
   createFeatureTable(
@@ -77,10 +83,22 @@ const createFeature = (featureName) => {
   );
 
   // Create <FeatureName> models
-  createFeatureModels(path.join(basePath, "models"), featureNamePascalCase, featureName);
+  createFeatureModels(
+    path.join(basePath, "models"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName> Hooks
-  createFeatureHooks(path.join(basePath, "hooks"), featureNamePascalCase, featureName);
+  createFeatureHooks(
+    path.join(basePath, "hooks"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   console.log(`Feature "${featureName}" created successfully at ${basePath}`);
 };

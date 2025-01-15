@@ -1,13 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 
-const createFeatureContainer = (basePath, featureNamePascalCase, featureName) => {
-  const containerFile = path.join(basePath, `${featureNamePascalCase}sContainer.tsx`);
+const createFeatureContainer = (
+  basePath,
+  featureNamePascalCase,
+  featureNamePluralInPascalCase,
+  featureNamePlural,
+  featureName
+) => {
+  const containerFile = path.join(basePath, `${featureNamePluralInPascalCase}Container.tsx`);
   if (!fs.existsSync(containerFile)) {
-    const content = `import ${featureNamePascalCase}sTable from "./components/UsersTable";
-    export default function ${featureNamePascalCase}sContainer() {
+    const content = `import ${featureNamePluralInPascalCase}Table from "./components/${featureNamePluralInPascalCase}Table";
+
+export default function ${featureNamePluralInPascalCase}Container() {
     return <div>
-      <${featureNamePascalCase}sTable />
+      <${featureNamePluralInPascalCase}Table />
     </div>;
 };
 `;
