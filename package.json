@@ -12,7 +12,7 @@
     "url": "https://github.com/AndresJQCode/crf"
   },
   "description": "A simple CLI tool to create a Features modules to Reactjs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "index.js",
   "bin": {
     "crf": "index.js"

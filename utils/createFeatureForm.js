@@ -59,7 +59,7 @@ export default function ${featureNamePascalCase}Form({ onClose, onSubmit, ${feat
           />
           <div className="col-span-full flex justify-end gap-2">
             <LoadingButton type="submit" text="Guardar" isLoading={isLoading} />
-            <Button variant="outline" onClick={onClose} disabled={isLoading}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isLoading}>
               Cancelar
             </Button>
           </div>

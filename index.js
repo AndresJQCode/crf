@@ -146,7 +146,7 @@ const createFeature = (featureName) => {
 program
   .name("crf")
   .description("CLI para crear módulos CRUD en reactjs con shadcn.")
-  .version("1.0.4")
+  .version("1.0.5")
   .argument("<featureName>", "Nombre en singular del feature que deseas crear.")
   // set error message on missing argument
   .showHelpAfterError()
