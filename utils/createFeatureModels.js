@@ -12,6 +12,7 @@ const createFeatureModels = (
 
   const modelEntity = `export interface ${featureNamePascalCase} {
   id: number;
+  name: string;
 }`;
   const modelFilePath = path.join(modelsPath, `${featureName}.type.ts`);
   fs.writeFileSync(modelFilePath, modelEntity.trim(), "utf8");

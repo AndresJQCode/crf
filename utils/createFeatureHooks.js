@@ -39,39 +39,66 @@ export default function useGet${featureNamePascalCase}ById(id: number) {
   const useGetOneFilePath = path.join(hooksPath, `useGet${featureNamePascalCase}ById.ts`);
   fs.writeFileSync(useGetOneFilePath, useGetOne.trim(), "utf8");
 
-  const useCreate = `import { axiosInstance } from '@/contexts/axiosInterceptor';
-import { useMutation } from '@tanstack/react-query';
+  const useCreateFilePath = path.join(hooksPath, `useCreate${featureNamePascalCase}.ts`);
+  if (!fs.existsSync(useCreateFilePath)) {
+    const useCreateContent = `import { axiosInstance } from '@/contexts/axiosInterceptor';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ${featureNamePascalCase}, Create${featureNamePascalCase} } from '../models';
 import { URL_API_${featureNamePluralUpperCase} } from '@/constants/api-urls.constants';
+import { toast } from 'sonner';
 
 export default function useCreate${featureNamePascalCase}() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (data: Create${featureNamePascalCase}) => axiosInstance.post<${featureNamePascalCase}>(URL_API_${featureNamePluralUpperCase}, data),
+    onSuccess: () => {
+      toast.success('${featureNamePascalCase} creado correctamente');
+      queryClient.invalidateQueries({
+        queryKey: ['${featureNamePlural.toLowerCase()}'],
+      });
+    },
   });
 }`;
-  const useCreateFilePath = path.join(hooksPath, `useCreate${featureNamePascalCase}.ts`);
-  fs.writeFileSync(useCreateFilePath, useCreate.trim(), "utf8");
+    fs.writeFileSync(useCreateFilePath, useCreateContent.trim(), "utf8");
+  }
 
   const useUpdate = `import { axiosInstance } from '@/contexts/axiosInterceptor';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ${featureNamePascalCase}, Update${featureNamePascalCase} } from '../models';
 import { URL_API_${featureNamePluralUpperCase} } from '@/constants/api-urls.constants';
+import { toast } from 'sonner';
 
 export default function useUpdate${featureNamePascalCase}() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Update${featureNamePascalCase}) => axiosInstance.put<${featureNamePascalCase}>(URL_API_${featureNamePluralUpperCase}, data),
+    onSuccess: () => {
+      toast.success('${featureNamePascalCase} creado correctamente');
+      queryClient.invalidateQueries({
+        queryKey: ['${featureNamePlural.toLowerCase()}'],
+      });
+    },
   });
 }`;
   const useUpdateFilePath = path.join(hooksPath, `useUpdate${featureNamePascalCase}.ts`);
   fs.writeFileSync(useUpdateFilePath, useUpdate.trim(), "utf8");
 
   const useDelete = `import { axiosInstance } from '@/contexts/axiosInterceptor';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { URL_API_${featureNamePluralUpperCase} } from '@/constants/api-urls.constants';
+import { toast } from 'sonner';
 
 export default function useDelete${featureNamePascalCase}() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: number) => axiosInstance.delete(URL_API_${featureNamePluralUpperCase}, { data: { id } }),
+    onSuccess: () => {
+      toast.success('${featureNamePascalCase} creado correctamente');
+      queryClient.invalidateQueries({
+        queryKey: ['${featureNamePlural.toLowerCase()}'],
+      });
+    },
   });
 }`;
   const useDeleteFilePath = path.join(hooksPath, `useDelete${featureNamePascalCase}.ts`);
@@ -85,10 +112,10 @@ const schema = z.object({
   name: z.string().nonempty("Name is required"),
 });
 
-export type ${featureNamePascalCase}FormData = z.infer<typeof schema>;
+export type ${featureNamePascalCase}FormState = z.infer<typeof schema>;
 
 export function use${featureNamePascalCase}Form() {
-  const form = useForm<${featureNamePascalCase}FormData>({
+  const form = useForm<${featureNamePascalCase}FormState>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
@@ -101,11 +128,11 @@ export function use${featureNamePascalCase}Form() {
   const useFormFilePath = path.join(hooksPath, `use${featureNamePascalCase}Form.ts`);
   fs.writeFileSync(useFormFilePath, useForm.trim(), "utf8");
 
-  const barrel = `export * from './useGet${featureNamePluralInPascalCase}';
-export * from './useGet${featureNamePascalCase}ById';
-export * from './useCreate${featureNamePascalCase}';
-export * from './useUpdate${featureNamePascalCase}';
-export * from './useDelete${featureNamePascalCase}';
+  const barrel = `export { default as useCreate${featureNamePascalCase} } from './useCreate${featureNamePascalCase}';
+export { default as useDelete${featureNamePascalCase} } from './useDelete${featureNamePascalCase}';
+export { default as useGet${featureNamePascalCase}ById } from './useGet${featureNamePascalCase}ById';
+export { default as useGet${featureNamePluralInPascalCase} } from './useGet${featureNamePluralInPascalCase}';
+export { default as useUpdate${featureNamePascalCase} } from './useUpdate${featureNamePascalCase}';
 export * from './use${featureNamePascalCase}Form';`;
 
   const barrelFilePath = path.join(hooksPath, "index.ts");

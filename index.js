@@ -11,6 +11,7 @@ const { createFeatureForm } = require("./utils/createFeatureForm");
 const { createFeatureContext } = require("./utils/createFeatureContext");
 const { createFeatureModels } = require("./utils/createFeatureModels");
 const { createFeatureHooks } = require("./utils/createFeatureHooks");
+const { createComponentsBarrel } = require("./utils/createComponentsBarrel");
 
 const program = new Command();
 
@@ -36,7 +37,6 @@ const createFeature = (featureName) => {
   const basePath = path.resolve(process.cwd(), "src", "features", featureNamePlural);
   const paths = [
     path.join(basePath, "components"),
-    path.join(basePath, "components", "form"),
     path.join(basePath, "components", "data-table"),
     path.join(basePath, "models"),
     path.join(basePath, "hooks"),
@@ -65,13 +65,31 @@ const createFeature = (featureName) => {
   );
 
   // Create <FeatureName>DialogCreate.tsx file inside components directory
-  createFeatureDialogCreate(path.join(basePath, "components"), featureNamePascalCase, featureName);
+  createFeatureDialogCreate(
+    path.join(basePath, "components"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName>DialogUpdate.tsx file inside components directory
-  createFeatureDialogUpdate(path.join(basePath, "components"), featureNamePascalCase, featureName);
+  createFeatureDialogUpdate(
+    path.join(basePath, "components"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName>  components/form
-  createFeatureForm(path.join(basePath, "components", "form"), featureNamePascalCase, featureName);
+  createFeatureForm(
+    path.join(basePath, "components"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
 
   // Create <FeatureName> contexts
   createFeatureContext(
@@ -100,17 +118,42 @@ const createFeature = (featureName) => {
     featureName
   );
 
+  createComponentsBarrel(
+    path.join(basePath, "components"),
+    featureNamePascalCase,
+    featureNamePluralInPascalCase,
+    featureNamePlural,
+    featureName
+  );
+
+  // agrega constante de la api en /src/constants/api-urls.constants.ts
+  const constantsPath = path.resolve(process.cwd(), "src", "constants", "api-urls.constants.ts");
+  const constants = fs.readFileSync(constantsPath, "utf8");
+  const newConstants = `${constants}\nexport const URL_API_${featureNamePlural.toUpperCase()} = \`\${BASE_URL_BACKEND}/${featureNamePlural}\`;\n`;
+  fs.writeFileSync(constantsPath, newConstants);
+
   console.log(`Feature "${featureName}" created successfully at ${basePath}`);
+
+  // ejecutar el comando: bun run build si pasan el parametro -b o --build
+  if (program.opts().build) {
+    console.log("Running build...");
+    const { execSync } = require("child_process");
+    execSync("npm run build", { stdio: "inherit" });
+  }
 };
 
 // Configure CLI
 program
-  .name("create-react-feature")
-  .description("CLI to create React features with predefined structure")
-  .version("1.0.0")
-  .argument("<featureName>", "Name of the feature to create (singular)")
+  .name("crf")
+  .description("CLI para crear módulos CRUD en reactjs con shadcn.")
+  .version("1.0.4")
+  .argument("<featureName>", "Nombre en singular del feature que deseas crear.")
+  // set error message on missing argument
+  .showHelpAfterError()
+  .addHelpText("after", `Ejemplo: crf user`)
   .action((featureName) => {
     createFeature(featureName);
-  });
+  })
+  .option("-b, --build", "Ejecuta el comando 'bun run build' después de crear la feature.");
 
 program.parse(process.argv);

@@ -11,8 +11,8 @@
     "type": "git",
     "url": "https://github.com/AndresJQCode/crf"
   },
-  "description": "A simple CLI tool to create a Features módules to Reactjs",
-  "version": "1.0.2",
+  "description": "A simple CLI tool to create a Features modules to Reactjs",
+  "version": "1.0.4",
   "main": "index.js",
   "bin": {
     "crf": "index.js"

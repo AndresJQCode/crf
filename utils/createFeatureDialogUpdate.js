@@ -1,7 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-const createFeatureDialogUpdate = (basePath, featureNamePascalCase, featureName) => {
+const createFeatureDialogUpdate = (
+  basePath,
+  featureNamePascalCase,
+  featureNamePluralInPascalCase,
+  featureNamePlural,
+  featureName
+) => {
   const dialogUpdateFile = path.join(basePath, `${featureNamePascalCase}DialogUpdate.tsx`);
   if (!fs.existsSync(dialogUpdateFile)) {
     const content = `export default function ${featureNamePascalCase}DialogUpdate() {

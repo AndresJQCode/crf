@@ -10,11 +10,12 @@ const createFeatureContainer = (
 ) => {
   const containerFile = path.join(basePath, `${featureNamePluralInPascalCase}Container.tsx`);
   if (!fs.existsSync(containerFile)) {
-    const content = `import ${featureNamePluralInPascalCase}Table from "./components/${featureNamePluralInPascalCase}Table";
+    const content = `import { ${featureNamePluralInPascalCase}Table, ${featureNamePascalCase}DialogCreate } from "./components";
 
 export default function ${featureNamePluralInPascalCase}Container() {
     return <div>
       <${featureNamePluralInPascalCase}Table />
+      <${featureNamePascalCase}DialogCreate />
     </div>;
 };
 `;
